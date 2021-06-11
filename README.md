@@ -111,64 +111,6 @@ Now that you have completed your initial analysis, design a Flask API based on t
 
 * Remember, a JSON list and dictionary is different from a regular python list and dictionary.
 
-## Bonus: Other Recommended Analyses
-
-* The following are optional challenge queries. These are highly recommended to attempt, but not required for the homework.
-
-* These are challenging and the starter notebook does not give you as much guidance as you are used to. This is intentional. It is up to you to closely follow directions and get the results.
-
-* Use the provided [temp_analysis_bonus_1_starter.ipynb](temp_analysis_bonus_1_starter.ipynb) and [temp_analysis_bonus_1_starter](temp_analysis_bonus_2_starter.ipynb) starter notebooks for each bonus challenge.
-
-### Temperature Analysis I
-
-* Hawaii is reputed to enjoy mild weather all year. Is there a meaningful difference between the temperature in, for example, June and December?
-
-* You may either use SQLAlchemy or pandas's `read_csv()` using `hawaii_measurements.csv` to perform this portion.
-
-* Identify the average temperature in June at all stations across all available years in the dataset. Do the same for December temperature.
-
-* Use the t-test to determine whether the difference in the means, if any, is statistically significant. Will you use a paired t-test, or an unpaired t-test? Why?
-
-### Temperature Analysis II
-
-* You are looking to take a trip from August first to August seventh of this year, but are worried that the weather will be less than ideal. Using historical data in the dataset find out what the temperature has previously looked like.
-
-* Create a function called `calc_temps` that will accept a start date and end date in the format `%Y-%m-%d`. The function will return the minimum, average, and maximum temperatures for that range of dates.
-
-* Use the `calc_temps` function to calculate the min, avg, and max temperatures for your trip using the matching dates from a previous year (i.e., use "2017-08-01").
-
-* Plot the min, avg, and max temperature from your previous query as a bar chart.
-
-  * Use "Trip Avg Temp" as the title.
-
-  * Use the average temperature as the bar height (y value).
-
-  * Use the peak-to-peak (TMAX-TMIN) value as the y error bar (YERR).
-
-    ![temperature](Images/temperature.png)
-
-### Daily Rainfall Average
-
-* Now that you have an idea of the temperature lets check to see what the rainfall has been, you don't want a when it rains the whole time!
-
-* Calculate the rainfall per weather station using the previous year's matching dates.
-
-  * Sort this in descending order by precipitation amount and list the station, name, latitude, longitude, and elevation.
-
-### Daily Temperature Normals
-
-* Calculate the daily normals across all weather stations for all previous years with matching month and day for your trip (August first to August seventh, inclusive). Normals are the averages for the min, avg, and max temperatures.
-
-  * Create a function called `daily_normals` that will return the daily normals for a specific month and day in **tuple format**. This date string will be in the format `%m-%d`. Be sure to use all historic TOBS that match that date string.
-
-* Use the `daily_normals` function to calculate the normals for each date string and append the resulting tuples to a list (so you will end up with a list of tuples).
-
-* Load the list of daily normals into a Pandas DataFrame and set the index equal to the date.
-
-* Use Pandas to plot an area plot (`stacked=False`) for the daily normals.
-
-  ![daily-normals](Images/daily-normals.png)
-
 ## Rubric
 
 [Unit 10 Rubric - SQLAlchemy Homework - Surfs Up!](https://docs.google.com/document/d/1gT29iMF3avSvJruKpcHY4qovP5QitgXePqtjC6XESI0/edit?usp=sharing)
