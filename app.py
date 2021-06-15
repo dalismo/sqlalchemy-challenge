@@ -50,7 +50,6 @@ def welcome():
 # Using the query from part 1 (most recent 12 months of precipitation data), convert the query results to a dictionary 
 # using date as the key and prcp as the value.
 # Return the JSON representation of your dictionary (note the specific format of your dictionary as required from above).
-
 last_year = dt.date(2017,8,23) - dt.timedelta(365)
 @app.route("/api/v1.0/precipitation")
 def precipitation():
@@ -63,6 +62,7 @@ def precipitation():
 
     return jsonify(p_results_dict)
 
+# Return a JSON list of stations from the dataset.
 @app.route("/api/v1.0/stations")
 def stations():
     station_list = session.query(Station.station).all()
@@ -85,11 +85,23 @@ def tobs():
     
     return jsonify(observes_dict)
 
-
-
-
-
-
+# Create a query that returns the minimum temperature, the average temperature, and the max temperature for a given start or start-end range
+# When given the start date only, calculate min, max, and avg for all dates greater than and equal to the start date
+# When given the start and the end date, calculate the minimum, average, and maximum obvserved temperature for dates between the start and end date inclusive
+# Return a JSONified dictionary of these minimum, maximum, and average temperatures
+@app.route("/api/v1.0/<start>")
+@app.route("/api/v1.0/<start>/<end>")
+def date(start=None, end=None):
+    if not end:
+        start = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
+            filter(Measurement.date >= start).all()
+        start_sort = list(np.ravel(start))
+        return jsonify(start_sort)
+    else:
+        end = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
+            filter(Measurement.date <= end).all()
+        end_sort = list(np.ravel(end))
+        return jsonify(end_sort)
 
 if __name__ == '__main__':
     app.run(debug=True)
