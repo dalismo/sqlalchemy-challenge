@@ -1,6 +1,6 @@
 import numpy as np
-# import pandas as pd
-# import datetime as dt
+import pandas as pd
+import datetime as dt
 
 from flask import Flask, jsonify
 import sqlalchemy
@@ -49,6 +49,8 @@ def welcome():
 # Using the query from part 1 (most recent 12 months of precipitation data), convert the query results to a dictionary 
 # using date as the key and prcp as the value.
 # Return the JSON representation of your dictionary (note the specific format of your dictionary as required from above).
+
+prior_year = dt.date(2017,8,23) - dt.timedelta(365)
 @app.route("/api/v1.0/precipitation")
 def precipitation():
     prcp_results=session.query(Measurement.date, func.sum(Measurement.prcp)).group_by(Measurement.date).\
@@ -57,6 +59,10 @@ def precipitation():
         prcp_results_dict = {}
         for date, prcp in prcp_results:
             if prcp !=None:
+                p_query_dict.setdefault(date, []).append(prcp)
+        return jsonify(prcp_results_dict)
+
+
 
 
 # Dictionary of TOBS Data
