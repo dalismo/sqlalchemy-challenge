@@ -51,7 +51,7 @@ def welcome():
 # using date as the key and prcp as the value.
 # Return the JSON representation of your dictionary (note the specific format of your dictionary as required from above).
 
-prior_year = dt.date(2017,8,23) - dt.timedelta(365)
+last_year = dt.date(2017,8,23) - dt.timedelta(365)
 @app.route("/api/v1.0/precipitation")
 def precipitation():
     p_results = session.query(Measurement.date, func.sum(Measurement.prcp)).group_by(Measurement.date).\
@@ -70,13 +70,23 @@ def stations():
 
     return jsonify(stations)
 
-
-
 # Dictionary of TOBS Data
     # """Return a list of dates and tobs"""
     # """Query for the dates and temperature observations from the last year.
     # Convert the query results to a Dictionary using date as the key and tobs as the value.
     # Return the JSON representation of your dictionary."""
+@app.route("/api/v1.0/tobs")
+def tobs():
+    observes = session.query(Measurement.date, Measurement.tobs).filter(Measurement.date >= last_year).all()
+    observes_dict = {}
+    for date, tobs in observes:
+        if tobs !=None:
+            observes_dict.setdefault(date, []).append(tobs)
+    
+    return jsonify(observes_dict)
+
+
+
 
 
 
