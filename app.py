@@ -12,6 +12,7 @@ from sqlalchemy import create_engine, func
 # Database Setup
 #################################################
 engine = create_engine("sqlite:///Resources/hawaii.sqlite")
+session = Session(engine)
 
 # reflect an existing database into a new model
 Base = automap_base()
@@ -53,16 +54,14 @@ def welcome():
 prior_year = dt.date(2017,8,23) - dt.timedelta(365)
 @app.route("/api/v1.0/precipitation")
 def precipitation():
-    prcp_results=session.query(Measurement.date, func.sum(Measurement.prcp)).group_by(Measurement.date).\
-        order_by(Measurement.id.desc().limit(365).all()
+    p_results = session.query(Measurement.date, func.sum(Measurement.prcp)).group_by(Measurement.date).\
+    order_by(Measurement.id.desc()).limit(365).all()
+    p_results_dict = {}
+    for date, prcp in p_results:
+        if prcp !=None:
+            p_results_dict.setdefault(date, []).append(prcp)
 
-        prcp_results_dict = {}
-        for date, prcp in prcp_results:
-            if prcp !=None:
-                p_query_dict.setdefault(date, []).append(prcp)
-        return jsonify(prcp_results_dict)
-
-
+    return jsonify(p_results_dict)
 
 
 # Dictionary of TOBS Data
