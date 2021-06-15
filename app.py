@@ -63,6 +63,14 @@ def precipitation():
 
     return jsonify(p_results_dict)
 
+@app.route("/api/v1.0/stations")
+def stations():
+    station_list = session.query(Station.station).all()
+    stations = list(np.ravel(station_list))
+
+    return jsonify(stations)
+
+
 
 # Dictionary of TOBS Data
     # """Return a list of dates and tobs"""
